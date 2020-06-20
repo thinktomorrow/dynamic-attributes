@@ -1,0 +1,25 @@
+# This file is for unifying the coding style for different editors and IDEs
+# editorconfig.org
+
+# PHP PSR-12 Coding Standards
+# http://www.php-fig.org/psr/psr-12/
+
+root = true
+
+# All PHP files MUST use the Unix LF (linefeed) line ending.
+# Code MUST use an indent of 4 spaces, and MUST NOT use tabs for indenting.
+# All PHP files MUST end with a single blank line.
+# There MUST NOT be trailing whitespace at the end of non-blank lines.
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+indent_style = space
+indent_size = 4
+trim_trailing_whitespace = true
+
+[*.md]
+trim_trailing_whitespace = false
+
+[*.yml]
+indent_size = 2
