@@ -21,10 +21,6 @@ Next, add the `HasDynamicAttributes` trait to your eloquent model.
     {
         use HasDynamicAttributes;
     
-        public $casts = [
-            'extra_attributes' => 'array',
-        ];
-        
         protected $dynamicKeys = ['firstname', 'lastname'];
     
         // ...
