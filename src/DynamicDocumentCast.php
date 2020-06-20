@@ -9,7 +9,7 @@ final class DynamicDocumentCast
      * Get from the storage
      *
      * @param DynamicDocument $dynamicDocument
-     * @param $values
+     * @param array|string|mixed $values
      * @return DynamicDocument
      */
     public static function merge(DynamicDocument $dynamicDocument, $values): DynamicDocument

@@ -18,17 +18,26 @@ final class DynamicDocument
         return ($this->get($key, '__NOTFOUND__') !== '__NOTFOUND__');
     }
 
+    /**
+     * @param string $key
+     * @param null|mixed $default
+     * @return mixed
+     */
     public function get(string $key, $default = null)
     {
         return data_get($this->values, $key, $default);
     }
 
-    public function set(string $key, $value)
+    /**
+     * @param string $key
+     * @param mixed $value
+     */
+    public function set(string $key, $value): void
     {
         data_set($this->values, $key, $value);
     }
 
-    public function all()
+    public function all(): array
     {
         return $this->values;
     }
