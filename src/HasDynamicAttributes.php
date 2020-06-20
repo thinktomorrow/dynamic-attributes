@@ -6,7 +6,7 @@ namespace Thinktomorrow\DynamicAttributes;
 
 trait HasDynamicAttributes
 {
-    private $dynamicDocument;
+    private DynamicDocument $dynamicDocument;
 
     public function initializeHasDynamicAttributes()
     {
