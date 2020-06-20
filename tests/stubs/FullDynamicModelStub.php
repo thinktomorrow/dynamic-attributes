@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace Thinktomorrow\DynamicAttributes\Tests\Stubs;
 
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 use Thinktomorrow\DynamicAttributes\HasDynamicAttributes;
 
 class FullDynamicModelStub extends Model

@@ -19,7 +19,7 @@ class LocalizedDynamicAttributesTest extends TestCase
         $model = new ModelStub(['values' => [
             'title' => [
                 'nl' => 'localized title nl',
-                'en' => 'localized title en'
+                'en' => 'localized title en',
             ],
         ]]);
 

@@ -6,13 +6,13 @@ use Thinktomorrow\DynamicAttributes\DynamicDocument;
 
 class DynamicDocumentTest extends TestCase
 {
-   /** @test */
-   public function it_can_get_a_value()
-   {
-       $document = new DynamicDocument(['foo' => 'bar']);
+    /** @test */
+    public function it_can_get_a_value()
+    {
+        $document = new DynamicDocument(['foo' => 'bar']);
 
-       $this->assertEquals('bar', $document->get('foo'));
-   }
+        $this->assertEquals('bar', $document->get('foo'));
+    }
 
     /** @test */
     public function it_can_get_all_the_values()
@@ -40,10 +40,10 @@ class DynamicDocumentTest extends TestCase
             'foo' => 'bar',
             'zab' => 'snap',
             'rab' => 'crap',
-        ],$merged->all());
+        ], $merged->all());
 
         // Merging is an immutable action, i'll prove it
-        $this->assertEquals(['foo' => 'bar', 'rab' => 'dab'],$document->all());
+        $this->assertEquals(['foo' => 'bar', 'rab' => 'dab'], $document->all());
     }
 
     /** @test */

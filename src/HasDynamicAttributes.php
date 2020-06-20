@@ -37,7 +37,7 @@ trait HasDynamicAttributes
         }
 
         if (in_array('*', $this->dynamicKeys())) {
-            return !in_array($key, array_merge([$this->getDynamicKey()], $this->dynamicKeysBlacklist()));
+            return ! in_array($key, array_merge([$this->getDynamicKey()], $this->dynamicKeysBlacklist()));
         }
 
         return false;
@@ -84,8 +84,8 @@ trait HasDynamicAttributes
     public function setRawAttributes(array $attributes, $sync = false)
     {
         // Populate the dynamic document
-        foreach($attributes as $key => $value) {
-            if($key === $this->getDynamicKey()) {
+        foreach ($attributes as $key => $value) {
+            if ($key === $this->getDynamicKey()) {
                 $this->fillDynamicDocument($value);
                 $attributes[$key] = $this->dynamicDocument()->toJson();
             }
@@ -105,7 +105,7 @@ trait HasDynamicAttributes
      */
     public function getAttribute($key)
     {
-        if (!$this->isDynamicKey($key)) {
+        if (! $this->isDynamicKey($key)) {
             return parent::getAttribute($key);
         }
 
@@ -133,9 +133,8 @@ trait HasDynamicAttributes
     {
         if ($this->isDynamicKey($key)) {
             $this->setDynamic($key, $value);
-        }
-        else {
-            if($key === $this->getDynamicKey()) {
+        } else {
+            if ($key === $this->getDynamicKey()) {
                 $this->fillDynamicDocument($value);
                 $value = $this->dynamicDocument()->toJson();
             }
