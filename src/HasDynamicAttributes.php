@@ -15,19 +15,14 @@ trait HasDynamicAttributes
 
     public function dynamic(string $key, string $index = null)
     {
-        return $this->dynamicDocument()->get($index ? "$key.$index" : $key);
+        return $this->dynamicDocument->get($index ? "$key.$index" : $key);
     }
 
     public function setDynamic(string $key, $value, string $index = null): void
     {
-        $this->dynamicDocument()->set($index ? "$key.$index" : $key, $value);
+        $this->dynamicDocument->set($index ? "$key.$index" : $key, $value);
 
-        parent::setAttribute($this->getDynamicKey(), $this->dynamicDocument()->toJson());
-    }
-
-    private function dynamicDocument(): DynamicDocument
-    {
-        return $this->dynamicDocument;
+        parent::setAttribute($this->getDynamicKey(), $this->dynamicDocument->toJson());
     }
 
     public function isDynamicKey($key): bool
@@ -87,7 +82,7 @@ trait HasDynamicAttributes
         foreach ($attributes as $key => $value) {
             if ($key === $this->getDynamicKey()) {
                 $this->fillDynamicDocument($value);
-                $attributes[$key] = $this->dynamicDocument()->toJson();
+                $attributes[$key] = $this->dynamicDocument->toJson();
             }
         }
 
@@ -111,11 +106,11 @@ trait HasDynamicAttributes
 
         $locale = app()->getLocale();
 
-        if ($this->dynamicDocument()->has("$key.{$locale}")) {
+        if ($this->dynamicDocument->has("$key.{$locale}")) {
             return $this->dynamic("$key.{$locale}");
         }
 
-        if ($this->dynamicDocument()->has($key)) {
+        if ($this->dynamicDocument->has($key)) {
             $value = $this->dynamic($key);
 
             if (is_array($value) && in_array($locale, $this->dynamicLocales())) {
@@ -136,7 +131,7 @@ trait HasDynamicAttributes
         } else {
             if ($key === $this->getDynamicKey()) {
                 $this->fillDynamicDocument($value);
-                $value = $this->dynamicDocument()->toJson();
+                $value = $this->dynamicDocument->toJson();
             }
 
             parent::setAttribute($key, $value);
@@ -145,6 +140,6 @@ trait HasDynamicAttributes
 
     private function fillDynamicDocument($value): void
     {
-        $this->dynamicDocument = (new DynamicDocumentCast())->merge($this->dynamicDocument(), $value);
+        $this->dynamicDocument = (new DynamicDocumentCast())->merge($this->dynamicDocument, $value);
     }
 }
