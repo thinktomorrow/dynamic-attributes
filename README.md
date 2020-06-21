@@ -1,6 +1,6 @@
 # Dynamic attributes
 
-This small package add document behaviour to your eloquent model. It allows the model to interact
+This small package adds document behaviour to your eloquent model. It allows the model to interact
 with json values as if they were top-level attributes.
 
 ## Installation
