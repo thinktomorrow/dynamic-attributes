@@ -25,7 +25,7 @@ trait HasDynamicAttributes
         parent::setAttribute($this->getDynamicKey(), $this->dynamicDocument->toJson());
     }
 
-    public function isDynamicKey($key): bool
+    public function isDynamic($key): bool
     {
         if (in_array($key, $this->dynamicKeys())) {
             return true;
@@ -100,7 +100,7 @@ trait HasDynamicAttributes
      */
     public function getAttribute($key)
     {
-        if (! $this->isDynamicKey($key)) {
+        if (! $this->isDynamic($key)) {
             return parent::getAttribute($key);
         }
 
@@ -126,7 +126,7 @@ trait HasDynamicAttributes
     /* Override Eloquent method as part of the custom cast */
     public function setAttribute($key, $value): void
     {
-        if ($this->isDynamicKey($key)) {
+        if ($this->isDynamic($key)) {
             $this->setDynamic($key, $value);
         } else {
             if ($key === $this->getDynamicKey()) {
