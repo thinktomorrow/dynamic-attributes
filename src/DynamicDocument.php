@@ -39,6 +39,7 @@ final class DynamicDocument
 
     public function all(): array
     {
+        $test = 1;
         return $this->values;
     }
 
