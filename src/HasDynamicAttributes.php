@@ -95,8 +95,8 @@ trait HasDynamicAttributes
      * If the dynamic attributes contain a localized value,
      * this has preference over any non-localized.
      *
-     * There is no locale fallback strategy in place. If the attribute is localized
-     * but it doesn't have a translation for the passed, null is returned.
+     * There is no fallback strategy in place for a missing locale. If the attribute is localized
+     * but it doesn't have a translation for the passed key, null is returned.
      */
     public function getAttribute($key)
     {

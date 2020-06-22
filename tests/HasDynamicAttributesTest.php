@@ -85,4 +85,13 @@ class HasDynamicAttributesTest extends TestCase
         $this->assertEquals('title value', $model->dynamic('title'));
         $this->assertEquals('title value', $model->title);
     }
+
+    /** @test */
+    public function it_can_eloquent_create_a_model_with_dynamic_attributes()
+    {
+        $model = ModelStub::create(['title' => 'title value']);
+
+        $this->assertEquals('title value', $model->dynamic('title'));
+        $this->assertEquals('title value', $model->title);
+    }
 }
