@@ -1,4 +1,5 @@
 # Trigger the workflow on push or pull request
+name: testsuite
 on: [push, pull_request]
 
 jobs:
