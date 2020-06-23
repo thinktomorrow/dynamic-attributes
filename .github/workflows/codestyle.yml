@@ -11,6 +11,6 @@ jobs:
       - name: Code checkout
         uses: actions/checkout@v2
       - name: Fix style
-          uses: docker://oskarstark/php-cs-fixer-ga
-          with:
-            args: --config=.php_cs --allow-risky=yes
+        uses: docker://oskarstark/php-cs-fixer-ga
+        with:
+          args: --config=.php_cs --allow-risky=yes
