@@ -80,7 +80,7 @@ $model->isDynamic('xxx'); // false
 ## Localization
 Dynamic attributes are built with localization in mind. 
 The only thing you'll need to do is add a `dynamicLocales` property on your model. This is an array and should contain all the locales of the model.
-```php
+```diff
 use ...
 
 class ExampleModel extends Model
@@ -89,7 +89,7 @@ class ExampleModel extends Model
 
     protected $dynamicKeys = ['title'];
 
-    protected $dynamicLocales = ['en', 'nl'];
++    protected $dynamicLocales = ['en', 'nl'];
 }
 ```
 
