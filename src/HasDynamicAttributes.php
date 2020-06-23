@@ -46,6 +46,7 @@ trait HasDynamicAttributes
      */
     protected function dynamicDocumentKey(): string
     {
+        $test = 'fake';
         return 'values';
     }
 
