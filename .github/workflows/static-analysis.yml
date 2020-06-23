@@ -5,6 +5,7 @@ on:
     paths:
       - '**.php'
       - 'psalm.xml'
+      - '.github/workflows/static-analysis.yml'
 
 jobs:
   test:

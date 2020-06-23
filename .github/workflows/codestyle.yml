@@ -1,9 +1,10 @@
-name: code fixer
+name: codestyle
 on:
   push:
     paths:
       - '**.php'
       - '.php_cs'
+      - '.github/workflows/codestyle.yml'
 jobs:
   codestyle:
     runs-on: ubuntu-latest
