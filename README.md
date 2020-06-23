@@ -21,17 +21,17 @@ Next, add the `HasDynamicAttributes` trait to your eloquent model.
 Also add a `dynamicKeys` property. This dynamic keys list informs the model on which value keys should be stored and fetched from the json column. Here's an example setup:
 
 ```php
-    use Illuminate\Database\Eloquent\Model;
-    use Thinktomorrow\DynamicAttributes\HasDynamicAttributes;
-    
-    class ExampleModel extends Model
-    {
-        use HasDynamicAttributes;
-    
-        protected $dynamicKeys = ['firstname', 'lastname'];
-    
-        // ...
-    }
+use Illuminate\Database\Eloquent\Model;
+use Thinktomorrow\DynamicAttributes\HasDynamicAttributes;
+
+class ExampleModel extends Model
+{
+    use HasDynamicAttributes;
+
+    protected $dynamicKeys = ['firstname', 'lastname'];
+
+    // ...
+}
 ```
 
 ## Storing as json column
@@ -44,50 +44,80 @@ By default, the database column name is assumed to be `values`. You are free to 
 
 Let's take the previous code example to demonstrate the usage of the package.
 
-### Setting a value
+### setDynamic()
 The value can be set just like you're used to with any other eloquent attribute. There's also a `dynamic` method which allows you to explicitly set a dynamic attribute.
 ``` php
-    
-    // Setting a dynamic attribute just like any other eloquent attribute.
-    $model = new ExampleModel(['firstname' => 'Ben']);
-    
-    // .. or by setting it after instantiation
-    $model->firstname = 'Ben';
-    
-    // Is the same as
-    $model->setDynamic('firstname', 'Ben');
+// Setting a dynamic attribute just like a regular attribute.
+$model = new ExampleModel(['firstname' => 'Ben']);
+
+// .. or by setting it after instantiation
+$model->firstname = 'Ben';
+
+// Is the same as
+$model->setDynamic('firstname', 'Ben');
 ```
 
-### Getting a value
+### dynamic()
 The value can be retrieved like a regular attribute. You can use the `dynamic` method to retrieve the dynamic attribute value as well.
 ``` php
-    
-    // Retrieve a dynamic attribute just like a regular attribute
-    $model = new ExampleModel(['firstname' => 'Ben']);
-    $model->firstname; // output: Ben
-    
-    // Or via 'dynamic' method
-    $model->dynamic('firstname'); // output: Ben
-    
-    // The 'dynamic' method allows for a default value in case the attribute isn't found
-    $model->dynamic('xxx', 'default'); // output: default
+// Retrieve a dynamic attribute just like a regular attribute
+$model = new ExampleModel(['firstname' => 'Ben']);
+$model->firstname; // Ben
+
+// Or via the 'dynamic' method
+$model->dynamic('firstname'); // Ben
+
+// The 'dynamic' method allows for a default value in case the attribute isn't found
+$model->dynamic('xxx', 'default'); // default
 ```
 
+### isDynamic()
+Check if the passed key refers to a dynamic attribute key or not. 
+```php
+$model->isDynamic('title'); // true
+$model->isDynamic('xxx'); // false
+```
+
+## Localization
+Dynamic attributes are built with localization in mind. 
+The only thing you'll need to do is add a `dynamicLocales` property on your model. This should contain all the locales of the model.
+```php
+use ...
+
+class ExampleModel extends Model
+{
+    use HasDynamicAttributes;
+
+    protected $dynamicKeys = ['title'];
+
+    protected $dynamicLocales = ['en', 'nl'];
+}
+```
+
+Localized values should be in an array where each key represents a locale and the value the corresponding translation. 
+Setting a localized value is done by passing the locale as a nested key:
 ``` php
-    
-    $model = new ExampleModel(['firstname' => 'Ben']);
-
-    $model->firstname; // returns 'Ben'
+$model->setDynamic('title.en', 'My article title');
+$model->setDynamic('title.nl', 'Mijn blogtitel');
 ```
 
-- nested values
-- localization
-- api: dynamic, setDynamic
+Retrieving the localized value: 
+``` php
+// When fetching the attribute without locale indication, the current application locale will be used.  
+$model->title; // My article title 
 
-## Configuration
+app()->setLocale('nl');
+$model->title; // Mijn blogtitel
 
-#### Changing the database column name
-...
+// You can fetch a specific localized value with the dynamic() method
+$model->dynamic('title.en'); // My article title
+
+// If the localized value isn't found, null is returned
+$model->dynamic('title.fr'); // null
+```
+
+### Changing the database column name
+By default the column name is set to `values`. You can change this by overriding the `dynamicDocumentKey` in your model and returning your custom column/attribute name.
 
 ## Some warnings on method inheritance
 The trait class overrides some some eloquent methods. This is because of the integral connection with eloquent attribute logic and the way eloquent allows for behavioural change via inheritance.
