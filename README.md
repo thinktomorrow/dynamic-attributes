@@ -19,15 +19,15 @@ Here's the quick how to on setting up the package. We'll assume you already have
 
 Here's an example setup:
 
-```php
+```diff
 use Illuminate\Database\Eloquent\Model;
 use Thinktomorrow\DynamicAttributes\HasDynamicAttributes;
 
 class ExampleModel extends Model
 {
-    use HasDynamicAttributes;
++    use HasDynamicAttributes;
 
-    protected $dynamicKeys = ['firstname', 'lastname'];
++    protected $dynamicKeys = ['firstname', 'lastname'];
 
     // ...
 }
