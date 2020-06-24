@@ -2,7 +2,6 @@
 
 namespace Thinktomorrow\DynamicAttributes\Tests;
 
-use PhpParser\Node\Expr\AssignOp\Mod;
 use Thinktomorrow\DynamicAttributes\Tests\Stubs\ModelStub;
 
 class LocalizedDynamicAttributesTest extends TestCase
@@ -34,7 +33,7 @@ class LocalizedDynamicAttributesTest extends TestCase
             'title' => [
             'nl' => 'localized title nl',
             'en' => 'localized title en',
-        ]]);
+        ], ]);
 
         $this->assertEquals('localized title en', $model->dynamic('title.en'));
         $this->assertEquals('localized title nl', $model->dynamic('title.nl'));
@@ -105,5 +104,15 @@ class LocalizedDynamicAttributesTest extends TestCase
 
         $this->assertEquals('title value nl', $model->dynamic('title.nl'));
         $this->assertEquals('title value en', $model->dynamic('title.en'));
+    }
+
+    /** @test */
+    public function it_can_check_if_locale_key_is_dynamic()
+    {
+        $model = new ModelStub(['content' => 'model content', 'title.nl' => 'title value nl', 'title.en' => 'title value en']);
+
+        $this->assertTrue($model->isDynamic('title'));
+        $this->assertFalse($model->isDynamic('title.nl'));
+        $this->assertFalse($model->isDynamic('content'));
     }
 }

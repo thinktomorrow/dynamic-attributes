@@ -26,6 +26,7 @@ class ModelStub extends Model
 
         Schema::create('model_stubs', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('content')->nullable();
             $table->json('values')->nullable();
             $table->timestamps();
         });

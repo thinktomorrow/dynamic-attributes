@@ -41,19 +41,6 @@ class HasDynamicAttributesTest extends TestCase
     }
 
     /** @test */
-    public function a_model_can_set_option_to_allow_all_properties_to_be_dynamic()
-    {
-        $model = new FullDynamicModelStub(['content' => 'model content', 'title' => 'model title']);
-
-        $this->assertEquals('model content', $model->content);
-        $this->assertEquals('model content', $model->dynamic('content'));
-
-        // own attribute remains untouched
-        $this->assertEquals('model title', $model->title);
-        $this->assertNull($model->dynamic('title'));
-    }
-
-    /** @test */
     public function it_can_set_a_dynamic_attribute()
     {
         $model = new ModelStub(['values' => ['title' => 'title value']]);
@@ -74,24 +61,62 @@ class HasDynamicAttributesTest extends TestCase
     }
 
     /** @test */
+    public function it_can_check_if_key_is_dynamic()
+    {
+        $model = new ModelStub(['content' => 'model content', 'title' => 'model title']);
+
+        $this->assertTrue($model->isDynamic('title'));
+        $this->assertFalse($model->isDynamic('content'));
+    }
+
+    /** @test */
     public function it_can_save_a_dynamic_attribute()
     {
         $model = new ModelStub(['values' => []]);
         $model->title = 'title value';
+        $model->content = 'content value';
         $model->save();
 
         $model = ModelStub::first();
 
         $this->assertEquals('title value', $model->dynamic('title'));
         $this->assertEquals('title value', $model->title);
+        $this->assertEquals('content value', $model->content);
     }
 
     /** @test */
     public function it_can_eloquent_create_a_model_with_dynamic_attributes()
     {
-        $model = ModelStub::create(['title' => 'title value']);
+        $model = ModelStub::create(['title' => 'title value', 'content' => 'content value']);
 
         $this->assertEquals('title value', $model->dynamic('title'));
         $this->assertEquals('title value', $model->title);
+        $this->assertEquals('content value', $model->content);
+    }
+
+    /** @test */
+    public function a_model_can_set_option_to_allow_all_properties_to_be_dynamic()
+    {
+        $model = new FullDynamicModelStub(['content' => 'model content', 'title' => 'model title']);
+
+        $this->assertEquals('model content', $model->content);
+        $this->assertEquals('model content', $model->dynamic('content'));
+
+        // own attribute remains untouched
+        $this->assertEquals('model title', $model->title);
+        $this->assertNull($model->dynamic('title'));
+    }
+
+    /** @test */
+    public function a_model_with_dynamic_blacklist_can_set_dynamic_attributes_with_column_key()
+    {
+        $model = new FullDynamicModelStub(['values' => ['content' => 'model content'], 'title' => 'model title']);
+
+        $this->assertEquals('model content', $model->content);
+        $this->assertEquals('model content', $model->dynamic('content'));
+
+        // own attribute remains untouched
+        $this->assertEquals('model title', $model->title);
+        $this->assertNull($model->dynamic('title'));
     }
 }
