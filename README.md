@@ -123,7 +123,7 @@ $model->dynamic('title.fr'); // null
 By default the column name is set to `values`. You can change this by overriding the `dynamicDocumentKey` in your model and returning your custom column/attribute name.
 
 ## Eloquent method inheritance
-The trait class overrides some some eloquent methods. These methods are: `getAttribute`, `setAttribute` and `setRawAttributes`.
+The trait class overrides some eloquent methods. These methods are: `getAttribute`, `setAttribute`, `setRawAttributes` and `removeTableFromKey`.
 This is because of the integral connection with eloquent attribute logic and the way eloquent allows for behavioural change via inheritance.
  
 If you use another trait that also overrides one of these methods, you're gonna bump into a method collision and need to alias the trait methods. 

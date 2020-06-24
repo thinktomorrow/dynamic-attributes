@@ -38,6 +38,16 @@ trait HasDynamicAttributes
         return false;
     }
 
+    private function isNestedDynamic($key): bool
+    {
+        if(false === strpos($key, '.')) return false;
+
+        // First part is considered to be the dynamic attribute key.
+        $dynamicKey = substr($key, 0, strpos($key, '.'));
+
+        return $this->isDynamic($dynamicKey);
+    }
+
     /**
      * The attribute key which the dynamic attributes is
      * referenced by as well as the database column name.
@@ -126,9 +136,10 @@ trait HasDynamicAttributes
     /* Override Eloquent method as part of the custom cast */
     public function setAttribute($key, $value): void
     {
-        if ($this->isDynamic($key)) {
+        if ($this->isDynamic($key) || $this->isNestedDynamic($key)) {
             $this->setDynamic($key, $value);
-        } else {
+        }
+        else {
             if ($key === $this->dynamicDocumentKey()) {
                 $this->fillDynamicDocument($value);
                 $value = $this->dynamicDocument->toJson();
@@ -141,5 +152,12 @@ trait HasDynamicAttributes
     private function fillDynamicDocument($value): void
     {
         $this->dynamicDocument = (new DynamicDocumentCast())->merge($this->dynamicDocument, $value);
+    }
+
+    protected function removeTableFromKey($key)
+    {
+        if($this->isDynamic($key) || $this->isNestedDynamic($key)) return $key;
+
+        return parent::removeTableFromKey($key);
     }
 }

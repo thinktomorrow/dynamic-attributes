@@ -2,17 +2,11 @@
 
 namespace Thinktomorrow\DynamicAttributes\Tests;
 
+use PhpParser\Node\Expr\AssignOp\Mod;
 use Thinktomorrow\DynamicAttributes\Tests\Stubs\ModelStub;
 
 class LocalizedDynamicAttributesTest extends TestCase
 {
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        ModelStub::migrateUp();
-    }
-
     /** @test */
     public function it_can_get_a_localized_dynamic_attribute()
     {
@@ -31,6 +25,19 @@ class LocalizedDynamicAttributesTest extends TestCase
 
         $this->assertEquals('localized title en', $model->dynamic('title', 'en'));
         $this->assertEquals('localized title nl', $model->dynamic('title', 'nl'));
+    }
+
+    /** @test */
+    public function it_can_get_a_localized_dynamic_attribute_with_dot_syntax()
+    {
+        $model = new ModelStub([
+            'title' => [
+            'nl' => 'localized title nl',
+            'en' => 'localized title en',
+        ]]);
+
+        $this->assertEquals('localized title en', $model->dynamic('title.en'));
+        $this->assertEquals('localized title nl', $model->dynamic('title.nl'));
     }
 
     /** @test */
@@ -58,6 +65,8 @@ class LocalizedDynamicAttributesTest extends TestCase
     /** @test */
     public function it_can_save_a_localized_dynamic_attribute()
     {
+        ModelStub::migrateUp();
+
         $model = new ModelStub(['values' => []]);
         $model->setDynamic('title', 'title value nl', 'nl');
         $model->setDynamic('title', 'title value en', 'en');
@@ -69,5 +78,32 @@ class LocalizedDynamicAttributesTest extends TestCase
         $this->assertEquals('title value nl', $model->dynamic('title', 'nl'));
         $this->assertEquals('title value en', $model->dynamic('title', 'en'));
         $this->assertEquals('title value nl', $model->title); // app locale is nl
+    }
+
+    /** @test */
+    public function it_can_store_localized_values()
+    {
+        ModelStub::migrateUp();
+
+        $model = new ModelStub();
+        $model->setDynamic('title.nl', 'title value nl');
+        $model->setDynamic('title.en', 'title value en');
+        $model->save();
+
+        $model->refresh();
+
+        $this->assertEquals('title value nl', $model->dynamic('title.nl'));
+        $this->assertEquals('title value en', $model->dynamic('title.en'));
+    }
+
+    /** @test */
+    public function it_can_set_localized_values_on_create()
+    {
+        ModelStub::migrateUp();
+
+        $model = ModelStub::create(['title.nl' => 'title value nl', 'title.en' => 'title value en']);
+
+        $this->assertEquals('title value nl', $model->dynamic('title.nl'));
+        $this->assertEquals('title value en', $model->dynamic('title.en'));
     }
 }
