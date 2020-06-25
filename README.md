@@ -128,10 +128,10 @@ This is because of the integral connection with eloquent attribute logic and the
  
 If you use another trait that also overrides one of these methods, you're gonna bump into a method collision and need to alias the trait methods. 
 
-## Other packages
+## Other solutions
 There's another great package that provides a similar functionality and that's [spatie/laravel-schemaless-attributes](https://github.com/spatie/laravel-schemaless-attributes).
-It also provides a nosql-like behaviour for json columns but takes a different approach. The main difference is that our package allows to work with top-level attributes, which was a requirement
-for some of our projects. 
+It also provides a nosql-like behaviour for json columns but takes a different approach. The main difference is that our package allows to work with top-level attributes and localized values, which was a requirement
+for some of our projects. With the package from Spatie, on the other hand, you can add multiple 'nosql' columns, which is currently not possible with our package.
 
 ## Testing
 
