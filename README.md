@@ -1,6 +1,6 @@
 # Dynamic attributes
 
-This small package adds document-like storage behaviour to your eloquent model. It allows the model to interact
+This small package adds nosql-like storage behaviour to your eloquent model. It allows the model to interact
 with json column values as if they were top-level attributes. 
 
 ## Installation
@@ -127,6 +127,11 @@ The trait class overrides some eloquent methods. These methods are: `getAttribut
 This is because of the integral connection with eloquent attribute logic and the way eloquent allows for behavioural change via inheritance.
  
 If you use another trait that also overrides one of these methods, you're gonna bump into a method collision and need to alias the trait methods. 
+
+## Other packages
+There's another great package that provides a similar functionality and that's [spatie/laravel-schemaless-attributes](https://github.com/spatie/laravel-schemaless-attributes).
+It also provides a nosql-like behaviour for json columns but takes a different approach. The main difference is that our package allows to work with top-level attributes, which was a requirement
+for some of our projects. 
 
 ## Testing
 
