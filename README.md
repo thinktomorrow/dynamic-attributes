@@ -79,19 +79,6 @@ $model->isDynamic('xxx'); // false
 
 ## Localization
 Dynamic attributes are built with localization in mind. 
-The only thing you'll need to do is add a `dynamicLocales` property on your model. This is an array and should contain all the locales of the model.
-```diff
-use ...
-
-class ExampleModel extends Model
-{
-    use HasDynamicAttributes;
-
-    protected $dynamicKeys = ['title'];
-
-+    protected $dynamicLocales = ['en', 'nl'];
-}
-```
 
 Setting a localized value is done by passing the locale as a nested key:
 ``` php
@@ -118,6 +105,21 @@ $model->dynamic('title.en'); // My article title
 // If the localized value isn't found, null is returned
 $model->dynamic('title.fr'); // null
 ```
+
+An extra thing you can do is to add a `dynamicLocales` property on your model. This is an array and should contain all the locales of the model. This ensures you return an null value in case a localized value isn't found instead of the entire value array itself.
+```diff
+use ...
+
+class ExampleModel extends Model
+{
+    use HasDynamicAttributes;
+
+    protected $dynamicKeys = ['title'];
+
++    protected $dynamicLocales = ['en', 'nl'];
+}
+```
+
 
 ## Changing the database column name
 By default the column name is set to `values`. You can change this by overriding the `dynamicDocumentKey` in your model and returning your custom column/attribute name.
