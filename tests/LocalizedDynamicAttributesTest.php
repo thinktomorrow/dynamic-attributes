@@ -107,6 +107,15 @@ class LocalizedDynamicAttributesTest extends TestCase
     }
 
     /** @test */
+    public function it_ignores_invalid_keys_on_mass_assignment()
+    {
+        ModelStub::migrateUp();
+
+        $model = ModelStub::create(['content.xx' => 'fake content']);
+        $this->assertNull($model->getAttribute('content.xx'));
+    }
+
+    /** @test */
     public function it_can_check_if_locale_key_is_dynamic()
     {
         $model = new ModelStub(['content' => 'model content', 'title.nl' => 'title value nl', 'title.en' => 'title value en']);
