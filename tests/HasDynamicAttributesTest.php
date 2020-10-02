@@ -70,6 +70,14 @@ class HasDynamicAttributesTest extends TestCase
     }
 
     /** @test */
+    public function it_can_get_the_raw_dynamic_array()
+    {
+        $model = new ModelStub(['values' => ['title' => ['nl' => 'title value nl', 'en' => 'title value en']]]);
+
+        $this->assertEquals(['title' => ['nl' => 'title value nl', 'en' => 'title value en']], $model->rawDynamicValues());
+    }
+
+    /** @test */
     public function it_can_save_a_dynamic_attribute()
     {
         $model = new ModelStub(['values' => []]);

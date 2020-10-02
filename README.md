@@ -77,6 +77,12 @@ $model->isDynamic('firstname'); // true
 $model->isDynamic('xxx'); // false
 ```
 
+### Raw values
+You can get the raw array of dynamic values via the `rawDynamicValues` method.
+```php 
+$model->rawDynamicValues() // outputs the entire array: ['firstname' => 'Ben']
+```
+
 ## Localization
 Dynamic attributes are built with localization in mind. 
 

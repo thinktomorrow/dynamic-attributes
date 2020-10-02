@@ -38,6 +38,11 @@ trait HasDynamicAttributes
         return false;
     }
 
+    public function rawDynamicValues(): array
+    {
+        return $this->dynamicDocument->all();
+    }
+
     private function isNestedDynamic($key): bool
     {
         if (false === strpos($key, '.')) {
