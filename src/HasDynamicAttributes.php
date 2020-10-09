@@ -130,7 +130,7 @@ trait HasDynamicAttributes
         if ($this->dynamicDocument->has($key)) {
             $value = $this->dynamic($key);
 
-            if (is_array($value) && in_array($locale, $this->dynamicLocales())) {
+            if (is_array($value) && count(array_intersect($this->dynamicLocales(), array_keys($value))) > 0 && in_array($locale, $this->dynamicLocales())) {
                 return null;
             }
 

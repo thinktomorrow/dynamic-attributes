@@ -124,4 +124,29 @@ class LocalizedDynamicAttributesTest extends TestCase
         $this->assertFalse($model->isDynamic('title.nl'));
         $this->assertFalse($model->isDynamic('content'));
     }
+
+    /** @test */
+    public function it_can_return_array_if_keys_of_the_dynamic_value_are_not_localized()
+    {
+        $model = new ModelStub(['values' => [
+            'title' => [
+                'nl' => 'localized title nl',
+                'en' => 'localized title en',
+            ],
+            'customs' => [
+                'first custom',
+                'second custom',
+            ],
+        ]]);
+
+        $this->assertEquals([
+            'first custom',
+            'second custom',
+        ], $model->customs);
+
+        $this->assertEquals([
+            'first custom',
+            'second custom',
+        ], $model->dynamic('customs'));
+    }
 }

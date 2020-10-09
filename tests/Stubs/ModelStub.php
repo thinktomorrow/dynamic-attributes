@@ -14,6 +14,7 @@ class ModelStub extends Model
 
     protected $dynamicKeys = [
         'title',
+        'customs',
     ];
 
     protected $dynamicLocales = ['nl','en'];
