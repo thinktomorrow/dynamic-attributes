@@ -32,7 +32,7 @@ trait HasDynamicAttributes
         }
 
         if (in_array('*', $this->dynamicKeys())) {
-            return ! in_array($key, array_merge([$this->dynamicDocumentKey()], $this->dynamicKeysBlacklist()));
+            return !in_array($key, array_merge([$this->dynamicDocumentKey()], $this->dynamicKeysBlacklist()));
         }
 
         return false;
@@ -69,6 +69,7 @@ trait HasDynamicAttributes
     /**
      * The attributes that should be treated as dynamic ones. This
      * is a list of keys matching the database column names.
+     *
      * @return array
      */
     protected function dynamicKeys(): array
@@ -117,7 +118,7 @@ trait HasDynamicAttributes
      */
     public function getAttribute($key)
     {
-        if (! $this->isDynamic($key)) {
+        if (!$this->isDynamic($key)) {
             return parent::getAttribute($key);
         }
 
@@ -160,15 +161,6 @@ trait HasDynamicAttributes
         $this->dynamicDocument = (new DynamicDocumentCast())->merge($this->dynamicDocument, $value);
     }
 
-//    protected function removeTableFromKey($key)
-//    {
-//        if ($this->isDynamic($key) || $this->isNestedDynamic($key)) {
-//            return $key;
-//        }
-//
-//        return parent::removeTableFromKey($key);
-//    }
-
     /**
      * Custom check to allow dotted syntax for dynamic attributes. By default Laravel avoids mass assignments
      * if the key contains a dot, which is expected to be a relation syntax. Here we make sure that
@@ -176,12 +168,15 @@ trait HasDynamicAttributes
      * Model::create(['title.en' => 'My title'])
      *
      * @param $key
+     * @return bool
      */
     public function isFillable($key)
     {
         $isFillable = parent::isFillable($key);
 
-        if($this->isNestedDynamic($key)) $isFillable = true;
+        if ($this->isNestedDynamic($key)) {
+            $isFillable = true;
+        }
 
         return $isFillable;
     }

@@ -6,7 +6,7 @@ namespace Thinktomorrow\DynamicAttributes;
 final class DynamicDocumentCast
 {
     /**
-     * Get from the storage
+     * Merge the raw values into the established document
      *
      * @param DynamicDocument $dynamicDocument
      * @param array|string|mixed $values
