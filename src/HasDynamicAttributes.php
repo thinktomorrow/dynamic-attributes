@@ -32,7 +32,7 @@ trait HasDynamicAttributes
         }
 
         if (in_array('*', $this->dynamicKeys())) {
-            return !in_array($key, array_merge([$this->dynamicDocumentKey()], $this->dynamicKeysBlacklist()));
+            return ! in_array($key, array_merge([$this->dynamicDocumentKey()], $this->dynamicKeysBlacklist()));
         }
 
         return false;
@@ -118,7 +118,7 @@ trait HasDynamicAttributes
      */
     public function getAttribute($key)
     {
-        if (!$this->isDynamic($key)) {
+        if (! $this->isDynamic($key)) {
             return parent::getAttribute($key);
         }
 
