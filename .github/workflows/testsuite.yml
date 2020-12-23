@@ -5,21 +5,27 @@ on: [push, pull_request]
 jobs:
   test:
     runs-on: ubuntu-latest
-    name: Testsuite
+    strategy:
+      fail-fast: true
+      matrix:
+        php: [7.4, 8.0]
+        laravel: [7.*, 8.*]
+        stability: [prefer-stable]
+        include:
+          - laravel: 7.*
+            testbench: 5.*
+          - laravel: 8.*
+            testbench: 6.*
+
+    name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
 
-      - name: Cache dependencies
-        uses: actions/cache@v1
-        with:
-          path: ~/.composer/cache/files
-          key: composer-${{ hashFiles('composer.json') }}
-
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4'
+          php-version: ${{ matrix.php }}
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
           coverage: none
 
