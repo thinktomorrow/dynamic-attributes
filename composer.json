@@ -10,17 +10,16 @@
         }
     ],
     "require": {
-        "php": "^7.4",
+        "php": "^7.4|^8.0",
         "ext-json": "*",
-        "illuminate/database": "^7.28"
+        "illuminate/database": "^7.28|^8.12"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.16",
-        "orchestra/testbench": "^5.7",
+        "orchestra/testbench": "^5.7|^6.0",
         "phpunit/phpunit": "^9.4",
         "psalm/plugin-laravel": "^1.4",
-        "thinktomorrow/trap": "^0.1.3",
-        "vimeo/psalm": "^3.16"
+        "vimeo/psalm": "^3.16|^4.3"
     },
     "autoload": {
         "psr-4": {
