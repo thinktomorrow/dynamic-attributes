@@ -12,12 +12,10 @@ jobs:
         laravel: [7.*, 8.*]
         stability: [prefer-stable, prefer-lowest]
         include:
-          - laravel: 7.*
-            testbench: 5.*
-          - laravel: 8.*
-            testbench: 6.*
           - php: 8.0
             laravel: 8.*
+          - laravel: 8.*
+            testbench: 6.*
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }}
     steps:
