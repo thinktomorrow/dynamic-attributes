@@ -146,19 +146,20 @@ trait HasDynamicAttributes
     {
         if ($this->isDynamic($key) || $this->isNestedDynamic($key)) {
             $this->setDynamic($key, $value);
-        } else {
-            if ($key === $this->dynamicDocumentKey()) {
-                $this->fillDynamicDocument($value);
-                $value = $this->dynamicDocument->toJson();
-            }
-
-            parent::setAttribute($key, $value);
+            return;
         }
+
+        if ($key === $this->dynamicDocumentKey()) {
+            $this->fillDynamicDocument($value);
+            $value = $this->dynamicDocument->toJson();
+        }
+
+        parent::setAttribute($key, $value);
     }
 
     private function fillDynamicDocument($value): void
     {
-        $this->dynamicDocument = (new DynamicDocumentCast())->merge($this->dynamicDocument, $value);
+        $this->dynamicDocument = DynamicDocumentCast::merge($this->dynamicDocument, $value);
     }
 
     /**
