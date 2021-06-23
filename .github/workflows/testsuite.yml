@@ -26,7 +26,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          composer update --${{ matrix.stability }} --prefer-dist --no-interaction --no-suggest
+          composer update --${{ matrix.stability }} --prefer-dist --no-interaction
 
       - name: Run phpunit
         run: vendor/bin/phpunit
