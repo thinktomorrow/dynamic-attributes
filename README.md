@@ -66,8 +66,13 @@ $model->firstname; // Ben
 // Or via the 'dynamic' method
 $model->dynamic('firstname'); // Ben
 
+// In case that the value is an array, a second parameter is used to require a specific key of the array value.
+$model = new ExampleModel(['person' => ['name' => 'Ben', 'age' => 39]);
+$model->dynamic('person', 'name'); // Ben
+$model->dynamic('person', 'age'); // 39
+
 // The 'dynamic' method allows for a default value in case the attribute isn't found
-$model->dynamic('xxx', 'default'); // default
+$model->dynamic('xxx', null, 'default'); // default
 ```
 
 ### Checking a value: isDynamic()
