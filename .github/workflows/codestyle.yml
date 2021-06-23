@@ -3,7 +3,7 @@ on:
   push:
     paths:
       - '**.php'
-      - '.php_cs'
+      - '.php-cs-fixer.php'
       - '.github/workflows/codestyle.yml'
 jobs:
   codestyle:
@@ -14,4 +14,4 @@ jobs:
       - name: Fix style
         uses: docker://oskarstark/php-cs-fixer-ga
         with:
-          args: --config=.php_cs --allow-risky=yes
+          args: --config=.php-cs-fixer.php --allow-risky=yes
