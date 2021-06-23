@@ -23,6 +23,14 @@ class HasDynamicAttributesTest extends TestCase
     }
 
     /** @test */
+    public function it_can_get_a_dynamic_attribute_default()
+    {
+        $model = new ModelStub();
+
+        $this->assertEquals('title default', $model->dynamic('title', null, 'title default'));
+    }
+
+    /** @test */
     public function the_dynamic_document_is_kept_next_to_the_original_attributes()
     {
         $model = new ModelStub(['values' => ['title' => 'title value']]);

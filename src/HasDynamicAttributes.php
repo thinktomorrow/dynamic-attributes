@@ -13,9 +13,9 @@ trait HasDynamicAttributes
         $this->dynamicDocument = new DynamicDocument();
     }
 
-    public function dynamic(string $key, string $index = null)
+    public function dynamic(string $key, string $index = null, $default = null)
     {
-        return $this->dynamicDocument->get($index ? "$key.$index" : $key);
+        return $this->dynamicDocument->get($index ? "$key.$index" : $key, $default);
     }
 
     public function setDynamic(string $key, $value, string $index = null): void
@@ -146,6 +146,7 @@ trait HasDynamicAttributes
     {
         if ($this->isDynamic($key) || $this->isNestedDynamic($key)) {
             $this->setDynamic($key, $value);
+
             return;
         }
 
