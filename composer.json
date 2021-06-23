@@ -12,14 +12,14 @@
     "require": {
         "php": "^7.4|^8.0",
         "ext-json": "*",
-        "illuminate/database": "^7.28|^8.12"
+        "illuminate/database": "^8.12"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.16",
-        "orchestra/testbench": "^5.7|^6.18",
+        "orchestra/testbench": "^6.18",
         "phpunit/phpunit": "^9.5",
         "psalm/plugin-laravel": "^1.4",
-        "vimeo/psalm": "^3.16|^4.8"
+        "vimeo/psalm": "^4.8"
     },
     "autoload": {
         "psr-4": {
