@@ -37,6 +37,20 @@ final class DynamicDocument
         data_set($this->values, $key, $value);
     }
 
+    public function remove(string $key): void
+    {
+        $parts = explode('.', $key);
+        $last = array_pop($parts);
+
+        $values = &$this->values;
+
+        foreach($parts as $part) {
+            $values = &$values[$part];
+        }
+
+        unset($values[$last]);
+    }
+
     public function all(): array
     {
         return $this->values;

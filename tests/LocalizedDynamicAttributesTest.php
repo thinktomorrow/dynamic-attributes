@@ -159,4 +159,17 @@ class LocalizedDynamicAttributesTest extends TestCase
             'second custom',
         ], $model->dynamic('customs'));
     }
+
+    /** @test */
+    public function it_can_remove_localized_values()
+    {
+        $model = new ModelStub();
+        $model->setDynamic('title.nl', 'title value nl');
+        $model->setDynamic('title.en', 'title value en');
+
+        $model->removeDynamic('title.nl');
+
+        $this->assertNull($model->dynamic('title.nl'));
+        $this->assertEquals('title value en', $model->dynamic('title.en'));
+    }
 }

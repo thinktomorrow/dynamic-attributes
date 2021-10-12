@@ -80,6 +80,19 @@ class DynamicDocumentTest extends TestCase
     }
 
     /** @test */
+    public function it_can_remove_a_value()
+    {
+        $document = new DynamicDocument();
+        $document->set('foo', 'bar');
+        $document->set('for', 'baz');
+        $this->assertEquals('bar', $document->get('foo'));
+
+        $document->remove('foo');
+        $this->assertEquals('NOT FOUND', $document->get('foo', 'NOT FOUND'));
+        $this->assertEquals('baz', $document->get('for'));
+    }
+
+    /** @test */
     public function it_can_pass__nonassociated_array_as_value_source()
     {
         $document = new DynamicDocument(['bar']);
@@ -94,6 +107,19 @@ class DynamicDocumentTest extends TestCase
         $document->set('foo.bar', 'zab');
 
         $this->assertEquals('zab', $document->get('foo.bar'));
+    }
+
+    /** @test */
+    public function it_can_remove_a_nested_value()
+    {
+        $document = new DynamicDocument();
+        $document->set('foo.baz', 'zar');
+        $document->set('foo.bar', 'zab');
+        $this->assertEquals('zab', $document->get('foo.bar'));
+
+        $document->remove('foo.bar');
+        $this->assertEquals('NOT FOUND', $document->get('foo.bar', 'NOT FOUND'));
+        $this->assertEquals('zar', $document->get('foo.baz'));
     }
 
     /** @test */

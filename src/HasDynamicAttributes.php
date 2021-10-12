@@ -25,6 +25,13 @@ trait HasDynamicAttributes
         parent::setAttribute($this->dynamicDocumentKey(), $this->dynamicDocument->toJson());
     }
 
+    public function removeDynamic(string $key, string $index = null): void
+    {
+        $this->dynamicDocument->remove($index ? "$key.$index" : $key);
+
+        parent::setAttribute($this->dynamicDocumentKey(), $this->dynamicDocument->toJson());
+    }
+
     public function isDynamic($key): bool
     {
         if (in_array($key, $this->dynamicKeys())) {

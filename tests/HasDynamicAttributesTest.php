@@ -69,6 +69,19 @@ class HasDynamicAttributesTest extends TestCase
     }
 
     /** @test */
+    public function it_can_remove_a_dynamic_attribute()
+    {
+        $model = new ModelStub(['values' => ['title' => 'title value']]);
+        $model->title = 'new title value';
+
+        $this->assertEquals('new title value', $model->title);
+
+        $model->removeDynamic('title');
+        $this->assertNull($model->title);
+        $this->assertTrue( !array_key_exists('title', $model->rawDynamicValues()) );
+    }
+
+    /** @test */
     public function it_can_check_if_key_is_dynamic()
     {
         $model = new ModelStub(['content' => 'model content', 'title' => 'model title']);
