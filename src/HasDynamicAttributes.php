@@ -89,6 +89,15 @@ trait HasDynamicAttributes
         return property_exists($this, 'dynamicLocales') ? $this->dynamicLocales : [];
     }
 
+    protected function dynamicLocaleFallback(): ?string
+    {
+        if(property_exists($this, 'dynamicLocaleFallback')){
+            return $this->dynamicLocaleFallback;
+        }
+
+        return null;
+    }
+
     /**
      * When allowing by default for all attributes to be dynamic, you can use
      * the blacklist to mark certain attributes as non dynamic.
@@ -139,6 +148,10 @@ trait HasDynamicAttributes
             $value = $this->dynamic($key);
 
             if (is_array($value) && count(array_intersect($this->dynamicLocales(), array_keys($value))) > 0 && in_array($locale, $this->dynamicLocales())) {
+                if(($fallbackLocale = $this->dynamicLocaleFallback()) && $this->dynamicDocument->has("$key.{$fallbackLocale}")) {
+                    return $this->dynamic("$key.{$fallbackLocale}");
+                }
+
                 return null;
             }
 

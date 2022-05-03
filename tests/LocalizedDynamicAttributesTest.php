@@ -3,6 +3,7 @@
 namespace Thinktomorrow\DynamicAttributes\Tests;
 
 use Thinktomorrow\DynamicAttributes\Tests\Stubs\ModelStub;
+use Thinktomorrow\DynamicAttributes\Tests\Stubs\FallbackLocaleModelStub;
 
 class LocalizedDynamicAttributesTest extends TestCase
 {
@@ -48,6 +49,17 @@ class LocalizedDynamicAttributesTest extends TestCase
 
         app()->setLocale('en');
         $this->assertNull($model->title);
+    }
+
+    /** @test */
+    public function it_can_provide_a_fallback_localized_value()
+    {
+        $model = new FallbackLocaleModelStub(['values' => [
+            'title' => ['nl' => 'localized title nl'],
+        ]]);
+
+        app()->setLocale('en');
+        $this->assertEquals('localized title nl', $model->title);
     }
 
     /** @test */
