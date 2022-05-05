@@ -63,6 +63,17 @@ class LocalizedDynamicAttributesTest extends TestCase
     }
 
     /** @test */
+    public function it_can_provide_a_fallback_localized_value_when_value_is_null()
+    {
+        $model = new FallbackLocaleModelStub(['values' => [
+            'title' => ['nl' => 'localized title nl', 'en' => null],
+        ]]);
+
+        app()->setLocale('en');
+        $this->assertEquals('localized title nl', $model->title);
+    }
+
+    /** @test */
     public function it_can_retrieve_a_fallback_when_localized_value_is_not_found()
     {
         $model = new ModelStub(['values' => [

@@ -141,24 +141,40 @@ trait HasDynamicAttributes
         $locale = app()->getLocale();
 
         if ($this->dynamicDocument->has("$key.{$locale}")) {
-            return $this->dynamic("$key.{$locale}");
+            return $this->getLocalizedValue($key, $locale);
         }
 
         if ($this->dynamicDocument->has($key)) {
             $value = $this->dynamic($key);
 
             if (is_array($value) && count(array_intersect($this->dynamicLocales(), array_keys($value))) > 0 && in_array($locale, $this->dynamicLocales())) {
-                if(($fallbackLocale = $this->dynamicLocaleFallback()) && $this->dynamicDocument->has("$key.{$fallbackLocale}")) {
-                    return $this->dynamic("$key.{$fallbackLocale}");
-                }
-
-                return null;
+                return $this->getLocalizedValue($key);
             }
 
             return $value;
         }
 
         return parent::getAttribute($key);
+    }
+
+    private function getLocalizedValue(string $key, ?string $locale = null)
+    {
+        $fallbackLocale = $this->dynamicLocaleFallback();
+
+        if($locale && $this->dynamicDocument->has("$key.{$locale}")) {
+            $value = $this->dynamic("$key.{$locale}");
+
+            // If fallback locale is given, we avoid returning null values and instead try to retrieve value via the fallback locale.
+            if(!$fallbackLocale || !is_null($value)) {
+                return $value;
+            }
+        }
+
+        if($this->dynamicDocument->has("$key.{$fallbackLocale}")) {
+            return $this->dynamic("$key.{$fallbackLocale}");
+        }
+
+        return null;
     }
 
     /* Override Eloquent method as part of the custom cast */
