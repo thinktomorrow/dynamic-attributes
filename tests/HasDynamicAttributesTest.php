@@ -78,7 +78,7 @@ class HasDynamicAttributesTest extends TestCase
 
         $model->removeDynamic('title');
         $this->assertNull($model->title);
-        $this->assertTrue( !array_key_exists('title', $model->rawDynamicValues()) );
+        $this->assertTrue(! array_key_exists('title', $model->rawDynamicValues()));
     }
 
     /** @test */

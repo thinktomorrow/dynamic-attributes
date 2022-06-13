@@ -2,8 +2,8 @@
 
 namespace Thinktomorrow\DynamicAttributes\Tests;
 
-use Thinktomorrow\DynamicAttributes\Tests\Stubs\ModelStub;
 use Thinktomorrow\DynamicAttributes\Tests\Stubs\FallbackLocaleModelStub;
+use Thinktomorrow\DynamicAttributes\Tests\Stubs\ModelStub;
 
 class LocalizedDynamicAttributesTest extends TestCase
 {

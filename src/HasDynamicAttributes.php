@@ -91,7 +91,7 @@ trait HasDynamicAttributes
 
     protected function dynamicLocaleFallback(): ?string
     {
-        if(property_exists($this, 'dynamicLocaleFallback')){
+        if (property_exists($this, 'dynamicLocaleFallback')) {
             return $this->dynamicLocaleFallback;
         }
 
@@ -161,16 +161,16 @@ trait HasDynamicAttributes
     {
         $fallbackLocale = $this->dynamicLocaleFallback();
 
-        if($locale && $this->dynamicDocument->has("$key.{$locale}")) {
+        if ($locale && $this->dynamicDocument->has("$key.{$locale}")) {
             $value = $this->dynamic("$key.{$locale}");
 
             // If fallback locale is given, we avoid returning null values and instead try to retrieve value via the fallback locale.
-            if(!$fallbackLocale || !is_null($value)) {
+            if (! $fallbackLocale || ! is_null($value)) {
                 return $value;
             }
         }
 
-        if($this->dynamicDocument->has("$key.{$fallbackLocale}")) {
+        if ($this->dynamicDocument->has("$key.{$fallbackLocale}")) {
             return $this->dynamic("$key.{$fallbackLocale}");
         }
 

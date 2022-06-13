@@ -44,7 +44,7 @@ final class DynamicDocument
 
         $values = &$this->values;
 
-        foreach($parts as $part) {
+        foreach ($parts as $part) {
             $values = &$values[$part];
         }
 
