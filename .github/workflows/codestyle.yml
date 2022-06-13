@@ -1,17 +1,23 @@
-name: codestyle
-on:
-  push:
-    paths:
-      - '**.php'
-      - '.php-cs-fixer.php'
-      - '.github/workflows/codestyle.yml'
+name: Check & fix styling
+
+on: [ push ]
+
 jobs:
-  codestyle:
+  php-cs-fixer:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Code checkout
-        uses: actions/checkout@v2
-      - name: Fix style
-        uses: docker://oskarstark/php-cs-fixer-ga
-        with:
-          args: --config=.php-cs-fixer.php --allow-risky=yes
+      -   name: Checkout code
+          uses: actions/checkout@v2
+          with:
+            ref: ${{ github.head_ref }}
+
+      -   name: Run PHP CS Fixer
+          uses: docker://oskarstark/php-cs-fixer-ga
+          with:
+            args: --config=.php-cs-fixer.dist.php --allow-risky=yes
+
+      -   name: Commit changes
+          uses: stefanzweifel/git-auto-commit-action@v4
+          with:
+            commit_message: Fix styling

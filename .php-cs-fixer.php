@@ -28,6 +28,7 @@ return (new PhpCsFixer\Config())
         'method_argument_space' => [
             'on_multiline' => 'ensure_fully_multiline',
             'keep_multiple_spaces_after_comma' => true,
-        ]
+        ],
+        'php_unit_method_casing' => ['case' => 'snake_case'],
     ])
     ->setFinder($finder);
