@@ -10,16 +10,14 @@
         }
     ],
     "require": {
-        "php": "^8.1",
+        "php": "^8.3",
         "ext-json": "*",
-        "illuminate/database": "^8.12|^9.0|^10.0",
-        "doctrine/dbal": "^3.1"
+        "illuminate/database": "^11.0"
     },
     "require-dev": {
-        "orchestra/testbench": "^6.18|^7.5|^8.10",
-        "phpunit/phpunit": "^9.5",
-        "psalm/plugin-laravel": "^1.4|^2.0",
-        "vimeo/psalm": "^4.8"
+        "orchestra/testbench": "^9.9",
+        "phpunit/phpunit": "^11.5",
+        "phpstan/phpstan": "^2.1"
     },
     "autoload": {
         "psr-4": {

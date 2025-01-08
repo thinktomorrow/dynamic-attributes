@@ -14,24 +14,21 @@ class HasDynamicAttributesTest extends TestCase
         ModelStub::migrateUp();
     }
 
-    /** @test */
-    public function it_can_get_a_dynamic_attribute()
+    public function test_it_can_get_a_dynamic_attribute()
     {
         $model = new ModelStub(['values' => ['title' => 'title value']]);
 
         $this->assertEquals('title value', $model->title);
     }
 
-    /** @test */
-    public function it_can_get_a_dynamic_attribute_default()
+    public function test_it_can_get_a_dynamic_attribute_default()
     {
         $model = new ModelStub();
 
         $this->assertEquals('title default', $model->dynamic('title', null, 'title default'));
     }
 
-    /** @test */
-    public function the_dynamic_document_is_kept_next_to_the_original_attributes()
+    public function test_the_dynamic_document_is_kept_next_to_the_original_attributes()
     {
         $model = new ModelStub(['values' => ['title' => 'title value']]);
 
@@ -39,8 +36,7 @@ class HasDynamicAttributesTest extends TestCase
         $this->assertEquals(json_encode(['title' => 'title value']), $model->values);
     }
 
-    /** @test */
-    public function a_model_attribute_is_forced_as_dynamic_when_its_set_as_dynamic_attribute()
+    public function test_a_model_attribute_is_forced_as_dynamic_when_its_set_as_dynamic_attribute()
     {
         $model = new ModelStub(['title' => 'model title']);
 
@@ -48,8 +44,7 @@ class HasDynamicAttributesTest extends TestCase
         $this->assertEquals('model title', $model->dynamic('title'));
     }
 
-    /** @test */
-    public function it_can_set_a_dynamic_attribute()
+    public function test_it_can_set_a_dynamic_attribute()
     {
         $model = new ModelStub(['values' => ['title' => 'title value']]);
         $model->title = 'new title value';
@@ -58,8 +53,7 @@ class HasDynamicAttributesTest extends TestCase
         $this->assertEquals('new title value', $model->title);
     }
 
-    /** @test */
-    public function it_can_set_a_new_dynamic_attribute()
+    public function test_it_can_set_a_new_dynamic_attribute()
     {
         $model = new ModelStub(['values' => []]);
         $model->title = 'title value';
@@ -68,8 +62,7 @@ class HasDynamicAttributesTest extends TestCase
         $this->assertEquals('title value', $model->title);
     }
 
-    /** @test */
-    public function it_can_remove_a_dynamic_attribute()
+    public function test_it_can_remove_a_dynamic_attribute()
     {
         $model = new ModelStub(['values' => ['title' => 'title value']]);
         $model->title = 'new title value';
@@ -81,8 +74,7 @@ class HasDynamicAttributesTest extends TestCase
         $this->assertTrue(! array_key_exists('title', $model->rawDynamicValues()));
     }
 
-    /** @test */
-    public function it_can_check_if_key_is_dynamic()
+    public function test_it_can_check_if_key_is_dynamic()
     {
         $model = new ModelStub(['content' => 'model content', 'title' => 'model title']);
 
@@ -90,16 +82,14 @@ class HasDynamicAttributesTest extends TestCase
         $this->assertFalse($model->isDynamic('content'));
     }
 
-    /** @test */
-    public function it_can_get_the_raw_dynamic_array()
+    public function test_it_can_get_the_raw_dynamic_array()
     {
         $model = new ModelStub(['values' => ['title' => ['nl' => 'title value nl', 'en' => 'title value en']]]);
 
         $this->assertEquals(['title' => ['nl' => 'title value nl', 'en' => 'title value en']], $model->rawDynamicValues());
     }
 
-    /** @test */
-    public function it_can_save_a_dynamic_attribute()
+    public function test_it_can_save_a_dynamic_attribute()
     {
         $model = new ModelStub(['values' => []]);
         $model->title = 'title value';
@@ -113,8 +103,7 @@ class HasDynamicAttributesTest extends TestCase
         $this->assertEquals('content value', $model->content);
     }
 
-    /** @test */
-    public function it_can_eloquent_create_a_model_with_dynamic_attributes()
+    public function test_it_can_eloquent_create_a_model_with_dynamic_attributes()
     {
         $model = ModelStub::create(['title' => 'title value', 'content' => 'content value']);
 
@@ -123,8 +112,7 @@ class HasDynamicAttributesTest extends TestCase
         $this->assertEquals('content value', $model->content);
     }
 
-    /** @test */
-    public function a_model_can_set_option_to_allow_all_properties_to_be_dynamic()
+    public function test_a_model_can_set_option_to_allow_all_properties_to_be_dynamic()
     {
         $model = new FullDynamicModelStub(['content' => 'model content', 'title' => 'model title']);
 
@@ -136,8 +124,7 @@ class HasDynamicAttributesTest extends TestCase
         $this->assertNull($model->dynamic('title'));
     }
 
-    /** @test */
-    public function a_model_with_dynamic_blacklist_can_set_dynamic_attributes_with_column_key()
+    public function test_a_model_with_dynamic_blacklist_can_set_dynamic_attributes_with_column_key()
     {
         $model = new FullDynamicModelStub(['values' => ['content' => 'model content'], 'title' => 'model title']);
 

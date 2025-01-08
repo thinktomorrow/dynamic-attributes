@@ -7,8 +7,7 @@ use Thinktomorrow\DynamicAttributes\Tests\Stubs\ModelStub;
 
 class LocalizedDynamicAttributesTest extends TestCase
 {
-    /** @test */
-    public function it_can_get_a_localized_dynamic_attribute()
+    public function test_it_can_get_a_localized_dynamic_attribute()
     {
         $model = new ModelStub(['values' => [
             'title' => [
@@ -27,8 +26,7 @@ class LocalizedDynamicAttributesTest extends TestCase
         $this->assertEquals('localized title nl', $model->dynamic('title', 'nl'));
     }
 
-    /** @test */
-    public function it_can_get_a_localized_dynamic_attribute_with_dot_syntax()
+    public function test_it_can_get_a_localized_dynamic_attribute_with_dot_syntax()
     {
         $model = new ModelStub([
             'title' => [
@@ -40,8 +38,7 @@ class LocalizedDynamicAttributesTest extends TestCase
         $this->assertEquals('localized title nl', $model->dynamic('title.nl'));
     }
 
-    /** @test */
-    public function it_does_not_provide_a_fallback_localized_value()
+    public function test_it_does_not_provide_a_fallback_localized_value()
     {
         $model = new ModelStub(['values' => [
             'title' => ['nl' => 'localized title nl'],
@@ -51,8 +48,7 @@ class LocalizedDynamicAttributesTest extends TestCase
         $this->assertNull($model->title);
     }
 
-    /** @test */
-    public function it_can_provide_a_fallback_localized_value()
+    public function test_it_can_provide_a_fallback_localized_value()
     {
         $model = new FallbackLocaleModelStub(['values' => [
             'title' => ['nl' => 'localized title nl'],
@@ -62,8 +58,7 @@ class LocalizedDynamicAttributesTest extends TestCase
         $this->assertEquals('localized title nl', $model->title);
     }
 
-    /** @test */
-    public function it_can_provide_a_fallback_localized_value_when_value_is_null()
+    public function test_it_can_provide_a_fallback_localized_value_when_value_is_null()
     {
         $model = new FallbackLocaleModelStub(['values' => [
             'title' => ['nl' => 'localized title nl', 'en' => null],
@@ -73,8 +68,7 @@ class LocalizedDynamicAttributesTest extends TestCase
         $this->assertEquals('localized title nl', $model->title);
     }
 
-    /** @test */
-    public function it_can_retrieve_a_fallback_when_localized_value_is_not_found()
+    public function test_it_can_retrieve_a_fallback_when_localized_value_is_not_found()
     {
         $model = new ModelStub(['values' => [
             'title' => ['nl' => 'localized title nl'],
@@ -83,8 +77,7 @@ class LocalizedDynamicAttributesTest extends TestCase
         $this->assertEquals('title default', $model->dynamic('title', 'en', 'title default'));
     }
 
-    /** @test */
-    public function when_locale_is_not_provided_as_dynamic_locale_it_will_return_raw_result()
+    public function test_when_locale_is_not_provided_as_dynamic_locale_it_will_return_raw_result()
     {
         $model = new ModelStub(['values' => [
             'title' => ['nl' => 'localized title nl'],
@@ -94,8 +87,7 @@ class LocalizedDynamicAttributesTest extends TestCase
         $this->assertEquals(['nl' => 'localized title nl'], $model->title);
     }
 
-    /** @test */
-    public function it_can_save_a_localized_dynamic_attribute()
+    public function test_it_can_save_a_localized_dynamic_attribute()
     {
         ModelStub::migrateUp();
 
@@ -112,8 +104,7 @@ class LocalizedDynamicAttributesTest extends TestCase
         $this->assertEquals('title value nl', $model->title); // app locale is nl
     }
 
-    /** @test */
-    public function it_can_store_localized_values()
+    public function test_it_can_store_localized_values()
     {
         ModelStub::migrateUp();
 
@@ -128,8 +119,7 @@ class LocalizedDynamicAttributesTest extends TestCase
         $this->assertEquals('title value en', $model->dynamic('title.en'));
     }
 
-    /** @test */
-    public function it_can_set_localized_values_on_create()
+    public function test_it_can_set_localized_values_on_create()
     {
         ModelStub::migrateUp();
 
@@ -139,8 +129,7 @@ class LocalizedDynamicAttributesTest extends TestCase
         $this->assertEquals('title value en', $model->dynamic('title.en'));
     }
 
-    /** @test */
-    public function it_ignores_invalid_keys_on_mass_assignment()
+    public function test_it_ignores_invalid_keys_on_mass_assignment()
     {
         ModelStub::migrateUp();
 
@@ -148,8 +137,7 @@ class LocalizedDynamicAttributesTest extends TestCase
         $this->assertNull($model->getAttribute('content.xx'));
     }
 
-    /** @test */
-    public function it_can_check_if_locale_key_is_dynamic()
+    public function test_it_can_check_if_locale_key_is_dynamic()
     {
         $model = new ModelStub(['content' => 'model content', 'title.nl' => 'title value nl', 'title.en' => 'title value en']);
 
@@ -158,8 +146,7 @@ class LocalizedDynamicAttributesTest extends TestCase
         $this->assertFalse($model->isDynamic('content'));
     }
 
-    /** @test */
-    public function it_can_return_array_if_keys_of_the_dynamic_value_are_not_localized()
+    public function test_it_can_return_array_if_keys_of_the_dynamic_value_are_not_localized()
     {
         $model = new ModelStub(['values' => [
             'title' => [
@@ -183,8 +170,7 @@ class LocalizedDynamicAttributesTest extends TestCase
         ], $model->dynamic('customs'));
     }
 
-    /** @test */
-    public function it_can_remove_localized_values()
+    public function test_it_can_remove_localized_values()
     {
         $model = new ModelStub();
         $model->setDynamic('title.nl', 'title value nl');
