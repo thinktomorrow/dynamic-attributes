@@ -2,6 +2,7 @@
 
 namespace Thinktomorrow\DynamicAttributes\Tests;
 
+use Thinktomorrow\DynamicAttributes\Tests\Stubs\FallbackLocaleMapModelStub;
 use Thinktomorrow\DynamicAttributes\Tests\Stubs\FallbackLocaleModelStub;
 use Thinktomorrow\DynamicAttributes\Tests\Stubs\ModelStub;
 
@@ -48,6 +49,15 @@ class LocalizedDynamicAttributesTest extends TestCase
         $this->assertNull($model->title);
     }
 
+    public function test_it_can_retrieve_a_fallback_default_when_localized_value_is_not_found()
+    {
+        $model = new ModelStub(['values' => [
+            'title' => ['nl' => 'localized title nl'],
+        ]]);
+
+        $this->assertEquals('title default', $model->dynamic('title', 'en', 'title default'));
+    }
+
     public function test_it_can_provide_a_fallback_localized_value()
     {
         $model = new FallbackLocaleModelStub(['values' => [
@@ -68,13 +78,23 @@ class LocalizedDynamicAttributesTest extends TestCase
         $this->assertEquals('localized title nl', $model->title);
     }
 
-    public function test_it_can_retrieve_a_fallback_when_localized_value_is_not_found()
+    public function test_it_can_provide_fallback_map()
     {
-        $model = new ModelStub(['values' => [
-            'title' => ['nl' => 'localized title nl'],
+        $model = new FallbackLocaleMapModelStub(['values' => [
+            'title' => ['nl' => 'localized title nl', 'en' => null, 'fr' => 'localized title fr'],
         ]]);
 
-        $this->assertEquals('title default', $model->dynamic('title', 'en', 'title default'));
+        // en uses fr as fallback
+        app()->setLocale('en');
+        $this->assertEquals('localized title fr', $model->title);
+
+        // de uses nl as fallback
+        app()->setLocale('de');
+        $this->assertEquals('localized title nl', $model->title);
+
+        // nl uses fr as fallback but has value
+        app()->setLocale('nl');
+        $this->assertEquals('localized title nl', $model->title);
     }
 
     public function test_when_locale_is_not_provided_as_dynamic_locale_it_will_return_raw_result()

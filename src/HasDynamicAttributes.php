@@ -89,9 +89,13 @@ trait HasDynamicAttributes
         return property_exists($this, 'dynamicLocales') ? $this->dynamicLocales : [];
     }
 
-    protected function dynamicLocaleFallback(): ?string
+    protected function dynamicLocaleFallback(string $locale): null|string|array
     {
         if (property_exists($this, 'dynamicLocaleFallback')) {
+            if(is_array($this->dynamicLocaleFallback)) {
+                return $this->dynamicLocaleFallback[$locale] ?? null;
+            }
+
             return $this->dynamicLocaleFallback;
         }
 
@@ -148,7 +152,7 @@ trait HasDynamicAttributes
             $value = $this->dynamic($key);
 
             if (is_array($value) && count(array_intersect($this->dynamicLocales(), array_keys($value))) > 0 && in_array($locale, $this->dynamicLocales())) {
-                return $this->getLocalizedValue($key);
+                return $this->getLocalizedValue($key, $locale);
             }
 
             return $value;
@@ -157,9 +161,9 @@ trait HasDynamicAttributes
         return parent::getAttribute($key);
     }
 
-    private function getLocalizedValue(string $key, ?string $locale = null)
+    private function getLocalizedValue(string $key, string $locale)
     {
-        $fallbackLocale = $this->dynamicLocaleFallback();
+        $fallbackLocale = $this->dynamicLocaleFallback($locale);
 
         if ($locale && $this->dynamicDocument->has("$key.{$locale}")) {
             $value = $this->dynamic("$key.{$locale}");
