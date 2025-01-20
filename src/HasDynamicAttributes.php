@@ -92,7 +92,7 @@ trait HasDynamicAttributes
     protected function dynamicLocaleFallback(string $locale): null|string|array
     {
         if (property_exists($this, 'dynamicLocaleFallback')) {
-            if(is_array($this->dynamicLocaleFallback)) {
+            if (is_array($this->dynamicLocaleFallback)) {
                 return $this->dynamicLocaleFallback[$locale] ?? null;
             }
 
