@@ -13,19 +13,19 @@ trait HasDynamicAttributes
         $this->dynamicDocument = new DynamicDocument();
     }
 
-    public function dynamic(string $key, string $index = null, $default = null)
+    public function dynamic(string $key, ?string $index = null, $default = null)
     {
         return $this->dynamicDocument->get($index ? "$key.$index" : $key, $default);
     }
 
-    public function setDynamic(string $key, $value, string $index = null): void
+    public function setDynamic(string $key, $value, ?string $index = null): void
     {
         $this->dynamicDocument->set($index ? "$key.$index" : $key, $value);
 
         parent::setAttribute($this->dynamicDocumentKey(), $this->dynamicDocument->toJson());
     }
 
-    public function removeDynamic(string $key, string $index = null): void
+    public function removeDynamic(string $key, ?string $index = null): void
     {
         $this->dynamicDocument->remove($index ? "$key.$index" : $key);
 
