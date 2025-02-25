@@ -17,9 +17,6 @@ class FallbackLocaleModelStub extends Model
         'customs',
     ];
 
-    protected $dynamicLocales = ['nl','en'];
-    protected $dynamicLocaleFallback = 'nl';
-
     protected $guarded = [];
 
     public static function migrateUp()
@@ -32,5 +29,15 @@ class FallbackLocaleModelStub extends Model
             $table->json('values')->nullable();
             $table->timestamps();
         });
+    }
+
+    public function getDynamicLocales(): array
+    {
+        return ['nl', 'de', 'en'];
+    }
+
+    public function getDynamicFallbackLocales(): array
+    {
+        return count($this->dynamicFallbackLocales) ? $this->dynamicFallbackLocales : ['en' => 'nl'];
     }
 }

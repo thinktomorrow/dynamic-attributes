@@ -17,8 +17,6 @@ class ModelStub extends Model
         'customs',
     ];
 
-    protected $dynamicLocales = ['nl','en'];
-
     protected $guarded = [];
 
     public static function migrateUp()
@@ -31,5 +29,10 @@ class ModelStub extends Model
             $table->json('values')->nullable();
             $table->timestamps();
         });
+    }
+
+    public function getDynamicLocales(): array
+    {
+        return ['nl','en'];
     }
 }

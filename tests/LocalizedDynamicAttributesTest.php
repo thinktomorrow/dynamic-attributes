@@ -2,7 +2,6 @@
 
 namespace Thinktomorrow\DynamicAttributes\Tests;
 
-use Thinktomorrow\DynamicAttributes\Tests\Stubs\FallbackLocaleMapModelStub;
 use Thinktomorrow\DynamicAttributes\Tests\Stubs\FallbackLocaleModelStub;
 use Thinktomorrow\DynamicAttributes\Tests\Stubs\ModelStub;
 
@@ -78,11 +77,39 @@ class LocalizedDynamicAttributesTest extends TestCase
         $this->assertEquals('localized title nl', $model->title);
     }
 
-    public function test_it_can_provide_fallback_map()
+    public function test_it_can_set_active_dynamic_locale()
     {
-        $model = new FallbackLocaleMapModelStub(['values' => [
+        $model = new FallbackLocaleModelStub(['values' => [
             'title' => ['nl' => 'localized title nl', 'en' => null, 'fr' => 'localized title fr'],
         ]]);
+
+        $model->setDynamicFallbackLocales([
+            'nl' => 'fr',
+            'en' => 'fr',
+            'de' => 'nl',
+        ]);
+
+        $model->setActiveDynamicLocale('en');
+        $this->assertEquals('localized title fr', $model->title);
+
+        $model->setActiveDynamicLocale('de');
+        $this->assertEquals('localized title nl', $model->title);
+
+        $model->setActiveDynamicLocale('nl');
+        $this->assertEquals('localized title nl', $model->title);
+    }
+
+    public function test_it_sets_by_default_active_dynamic_locale_by_app_locale()
+    {
+        $model = new FallbackLocaleModelStub(['values' => [
+            'title' => ['nl' => 'localized title nl', 'en' => null, 'fr' => 'localized title fr'],
+        ]]);
+
+        $model->setDynamicFallbackLocales([
+            'nl' => 'fr',
+            'en' => 'fr',
+            'de' => 'nl',
+        ]);
 
         // en uses fr as fallback
         app()->setLocale('en');
