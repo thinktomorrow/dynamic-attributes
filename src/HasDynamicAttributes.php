@@ -22,6 +22,26 @@ trait HasDynamicAttributes
         return $this->dynamicDocument->get($index ? "$key.$index" : $key, $default);
     }
 
+    public function localizedDynamic(string $key, string $locale)
+    {
+        $fallbackLocale = $this->getDynamicFallbackLocale($locale);
+
+        if ($locale && $this->dynamicDocument->has("$key.{$locale}")) {
+            $value = $this->dynamic("$key.{$locale}");
+
+            // If fallback locale is given, we avoid returning null values and instead try to retrieve value via the fallback locale.
+            if (! is_null($value)) {
+                return $value;
+            }
+        }
+
+        if ($fallbackLocale) {
+            return $this->localizedDynamic($key, $fallbackLocale);
+        }
+
+        return null;
+    }
+
     public function setDynamic(string $key, $value, ?string $index = null): void
     {
         $this->dynamicDocument->set($index ? "$key.$index" : $key, $value);
@@ -131,14 +151,14 @@ trait HasDynamicAttributes
         $locale = $this->getActiveDynamicLocale();
 
         if ($this->dynamicDocument->has("$key.{$locale}")) {
-            return $this->getLocalizedValue($key, $locale);
+            return $this->localizedDynamic($key, $locale);
         }
 
         if ($this->dynamicDocument->has($key)) {
             $value = $this->dynamic($key);
 
             if (is_array($value) && count(array_intersect($this->getDynamicLocales(), array_keys($value))) > 0) {
-                return $this->getLocalizedValue($key, $locale);
+                return $this->localizedDynamic($key, $locale);
             }
 
             return $value;
@@ -185,33 +205,6 @@ trait HasDynamicAttributes
     protected function getDynamicFallbackLocale(string $locale): null|string
     {
         return $this->getDynamicFallbackLocales()[$locale] ?? null;
-    }
-
-    private function getLocalizedValue(string $key, string $locale)
-    {
-        $fallbackLocale = $this->getDynamicFallbackLocale($locale);
-
-        if ($locale && $this->dynamicDocument->has("$key.{$locale}")) {
-            $value = $this->dynamic("$key.{$locale}");
-
-            // If fallback locale is given, we avoid returning null values and instead try to retrieve value via the fallback locale.
-            if (! is_null($value)) {
-                return $value;
-            }
-        }
-
-        if ($fallbackLocale) {
-            return $this->getLocalizedValue($key, $fallbackLocale);
-        }
-
-        return null;
-
-
-        //        if ($this->dynamicDocument->has("$key.{$fallbackLocale}")) {
-        //            return $this->dynamic("$key.{$fallbackLocale}");
-        //        }
-        //
-        //        return null;
     }
 
     /* Override Eloquent method as part of the custom cast */

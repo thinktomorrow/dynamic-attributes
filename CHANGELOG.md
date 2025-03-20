@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+## 2.0.2 - 2025-03-20
+- Added: public localizedDynamic to retrieve dynamic value with fallback logic for localized values.
+
 ## 2.0.1 - 2025-03-20
 - Changed: when returning a localized value for a locale that is not set as dynamic locale, null is returned. In previous releases, the raw array was returned instead. This often lead to render issues where a string instead of the raw array was expected.
 
