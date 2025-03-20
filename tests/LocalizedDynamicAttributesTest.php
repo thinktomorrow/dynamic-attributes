@@ -77,6 +77,16 @@ class LocalizedDynamicAttributesTest extends TestCase
         $this->assertEquals('localized title nl', $model->title);
     }
 
+    public function test_it_gets_own_localized_value_when_value_is_empty_string()
+    {
+        $model = new FallbackLocaleModelStub(['values' => [
+            'title' => ['nl' => 'localized title nl', 'en' => ''],
+        ]]);
+
+        app()->setLocale('en');
+        $this->assertEquals('', $model->title);
+    }
+
     public function test_it_can_set_active_dynamic_locale()
     {
         $model = new FallbackLocaleModelStub(['values' => [
@@ -124,14 +134,14 @@ class LocalizedDynamicAttributesTest extends TestCase
         $this->assertEquals('localized title nl', $model->title);
     }
 
-    public function test_when_locale_is_not_provided_as_dynamic_locale_it_will_return_raw_result()
+    public function test_when_locale_is_not_provided_as_dynamic_locale_it_will_return_null()
     {
         $model = new ModelStub(['values' => [
             'title' => ['nl' => 'localized title nl'],
         ]]);
 
         app()->setLocale('dk');
-        $this->assertEquals(['nl' => 'localized title nl'], $model->title);
+        $this->assertNull($model->title);
     }
 
     public function test_it_can_save_a_localized_dynamic_attribute()
@@ -227,5 +237,24 @@ class LocalizedDynamicAttributesTest extends TestCase
 
         $this->assertNull($model->dynamic('title.nl'));
         $this->assertEquals('title value en', $model->dynamic('title.en'));
+    }
+
+    public function test_it_falls_back_through_multiple_levels()
+    {
+        $model = new FallbackLocaleModelStub(['values' => [
+            'title' => ['nl' => 'localized title nl', 'en' => null],
+        ]]);
+
+        $model->setDynamicFallbackLocales([
+            'de' => 'en',
+            'en' => 'nl',
+            'nl' => null,
+        ]);
+
+        app()->setLocale('de');
+        $this->assertEquals('localized title nl', $model->title);
+
+        app()->setLocale('en');
+        $this->assertEquals('localized title nl', $model->title);
     }
 }
