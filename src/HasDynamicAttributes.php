@@ -200,18 +200,18 @@ trait HasDynamicAttributes
             }
         }
 
-        if($fallbackLocale) {
+        if ($fallbackLocale) {
             return $this->getLocalizedValue($key, $fallbackLocale);
         }
 
         return null;
 
 
-//        if ($this->dynamicDocument->has("$key.{$fallbackLocale}")) {
-//            return $this->dynamic("$key.{$fallbackLocale}");
-//        }
-//
-//        return null;
+        //        if ($this->dynamicDocument->has("$key.{$fallbackLocale}")) {
+        //            return $this->dynamic("$key.{$fallbackLocale}");
+        //        }
+        //
+        //        return null;
     }
 
     /* Override Eloquent method as part of the custom cast */
