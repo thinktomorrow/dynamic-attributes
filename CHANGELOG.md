@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+## 2.0.3 - 2025-04-16
+- Added: protected ìsEmptyValue` method to allow for custom empty value checks
+
 ## 2.0.2 - 2025-03-20
 - Added: public localizedDynamic to retrieve dynamic value with fallback logic for localized values.
 
