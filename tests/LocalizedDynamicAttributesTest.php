@@ -72,7 +72,7 @@ class LocalizedDynamicAttributesTest extends TestCase
             ],
         ]]);
 
-        $model->setCustomValueEmpty(function($value) {
+        $model->setCustomValueEmpty(function ($value) {
             return $value === 'foobar';
         });
 

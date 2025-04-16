@@ -42,7 +42,7 @@ class ModelStub extends Model
 
     protected function isValueEmpty($value): bool
     {
-        if($this->customValueEmpty) {
+        if ($this->customValueEmpty) {
             return call_user_func($this->customValueEmpty, $value);
         }
 
