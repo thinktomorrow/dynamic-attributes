@@ -30,7 +30,7 @@ trait HasDynamicAttributes
             $value = $this->dynamic("$key.{$locale}");
 
             // If fallback locale is given, we avoid returning null values and instead try to retrieve value via the fallback locale.
-            if (! is_null($value)) {
+            if (! $this->isValueEmpty($value)) {
                 return $value;
             }
         }
@@ -40,6 +40,15 @@ trait HasDynamicAttributes
         }
 
         return null;
+    }
+
+    /**
+     * Check if the value is empty. This is used to determine if we should
+     * return the value or fallback to another locale value.
+     */
+    protected function isValueEmpty($value) :bool
+    {
+        return is_null($value);
     }
 
     public function setDynamic(string $key, $value, ?string $index = null): void
