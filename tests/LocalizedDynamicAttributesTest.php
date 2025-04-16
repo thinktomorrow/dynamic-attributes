@@ -62,6 +62,25 @@ class LocalizedDynamicAttributesTest extends TestCase
         $this->assertEquals('localized title nl', $model->localizedDynamic('title', 'en'));
     }
 
+    public function test_it_can_set_custom_empty_check_for_fallback_logic()
+    {
+
+        $model = new ModelStub(['values' => [
+            'title' => [
+                'nl' => 'localized title nl',
+                'en' => 'foobar',
+            ],
+        ]]);
+
+        $model->setCustomValueEmpty(function($value) {
+            return $value === 'foobar';
+        });
+
+        $model->setDynamicFallbackLocales(['en' => 'nl']);
+
+        $this->assertEquals('localized title nl', $model->localizedDynamic('title', 'en'));
+    }
+
     public function test_it_can_get_a_localized_dynamic_attribute_with_dot_syntax()
     {
         $model = new ModelStub([

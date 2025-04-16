@@ -10,7 +10,11 @@ use Thinktomorrow\DynamicAttributes\HasDynamicAttributes;
 
 class ModelStub extends Model
 {
-    use HasDynamicAttributes;
+    use HasDynamicAttributes {
+        isValueEmpty as baseIsValueEmpty;
+    }
+
+    private ?\Closure $customValueEmpty = null;
 
     protected $dynamicKeys = [
         'title',
@@ -34,5 +38,19 @@ class ModelStub extends Model
     public function getDynamicLocales(): array
     {
         return ['nl','en'];
+    }
+
+    protected function isValueEmpty($value): bool
+    {
+        if($this->customValueEmpty) {
+            return call_user_func($this->customValueEmpty, $value);
+        }
+
+        return $this->baseIsValueEmpty($value);
+    }
+
+    public function setCustomValueEmpty($customValue): void
+    {
+        $this->customValueEmpty = $customValue;
     }
 }
