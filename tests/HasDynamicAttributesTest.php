@@ -74,6 +74,15 @@ class HasDynamicAttributesTest extends TestCase
         $this->assertTrue(! array_key_exists('title', $model->rawDynamicValues()));
     }
 
+    public function test_removing_attribute_is_case_sensitive(): void
+    {
+        $model = new ModelStub(['values' => ['Title' => 'title value', 'title' => 'another title value']]);
+
+        $model->removeDynamic('Title');
+        $this->assertNull($model->dynamic('Title'));
+        $this->assertEquals('another title value', $model->dynamic('title'));
+    }
+
     public function test_it_can_check_if_key_is_dynamic()
     {
         $model = new ModelStub(['content' => 'model content', 'title' => 'model title']);

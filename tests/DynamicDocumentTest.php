@@ -110,6 +110,35 @@ class DynamicDocumentTest extends TestCase
         $this->assertEquals('zar', $document->get('foo.baz'));
     }
 
+    public function test_getting_value_is_case_sensitive(): void
+    {
+        $document = new DynamicDocument();
+        $document->set('foo.bar', 'zab');
+        $this->assertEquals('zab', $document->get('foo.bar'));
+        $this->assertNull($document->get('foo.BAR'));
+
+        $document = new DynamicDocument();
+        $document->set('fooBar', 'zab');
+        $this->assertEquals('zab', $document->get('fooBar'));
+        $this->assertNull($document->get('foobar'));
+    }
+
+    public function test_remove_is_case_sensitive(): void
+    {
+        $document = new DynamicDocument();
+        $document->set('foo.bar', 'zab');
+        $document->remove('foo.BAR');
+        $this->assertEquals('zab', $document->get('foo.bar'));
+
+        $document = new DynamicDocument();
+        $document->set('fooBar', 'zab');
+        $document->set('foobar', 'zab-stay');
+        $document->remove('fooBar');
+        $this->assertEquals('zab-stay', $document->get('foobar'));
+        $this->assertNull($document->get('fooBar'));
+
+    }
+
     public function test_setting_a_value_will_overwrite_any_existing_value()
     {
         $document = new DynamicDocument(['foo' => 'bar']);
